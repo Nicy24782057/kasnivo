@@ -7,6 +7,7 @@ on:
 
   workflow_dispatch:
 
+
 permissions:
   contents: read
   pages: write
@@ -20,24 +21,31 @@ concurrency:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
 
     steps:
 
+      # Ambil kode dari repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
 
+      # Install Node.js
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
 
+      # Install package React
       - name: Install dependencies
         run: npm install
 
 
+      # Build React + Inject Environment Variable
       - name: Build React
         run: npm run build
         env:
@@ -46,15 +54,18 @@ jobs:
           VITE_AI_API_URL: https://kasnivo-ai-api.fastapicloud.dev
 
 
+      # Setup GitHub Pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
 
+      # Upload hasil build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
 
+      # Deploy
       - name: Deploy Pages
         uses: actions/deploy-pages@v4
