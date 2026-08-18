@@ -1,16 +1,19 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim()
 
-console.log("URL", supabaseUrl)
-console.log("KEY", supabaseKey)
+const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim()
+
+console.log("URL =", supabaseUrl)
+console.log("KEY =", supabaseKey?.substring(0,20))
+
 
 if (!supabaseUrl || !supabaseKey) {
   throw new Error(
-    'Supabase URL atau Publishable Key belum terbaca dari .env.local'
+    'Supabase config belum terbaca'
   )
 }
+
 
 export const supabase = createClient(
   supabaseUrl,
