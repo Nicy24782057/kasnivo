@@ -10,7 +10,20 @@ import {
 } from 'react-router'
 
 import { supabase } from '../services/supabase'
+
 import logo from '../assets/kasnivo-logo.png'
+
+// ==============================
+// NAVIGATION ICONS
+// ==============================
+
+import dashboardIcon from '../assets/icons/navigations/dashboard.png'
+import accountsIcon from '../assets/icons/navigations/accounts.png'
+import transactionsIcon from '../assets/icons/navigations/transactions.png'
+import reportsIcon from '../assets/icons/navigations/reports.png'
+import profileIcon from '../assets/icons/navigations/profile.png'
+import adminIcon from '../assets/icons/navigations/admin.png'
+import logoutIcon from '../assets/icons/navigations/logout.png'
 
 function AppLayout() {
   const navigate = useNavigate()
@@ -153,7 +166,7 @@ function AppLayout() {
 
   const menuClass =
     ({ isActive }) =>
-      `flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition ${
+      `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition ${
         isActive
           ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20'
           : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -161,19 +174,48 @@ function AppLayout() {
 
   const mobileMenuClass =
     ({ isActive }) =>
-      `flex flex-col items-center justify-center gap-1 text-[11px] font-medium transition ${
+      `group flex flex-col items-center justify-center gap-1.5 text-[11px] font-medium transition ${
         isActive
           ? 'text-emerald-600'
           : 'text-slate-400'
       }`
 
+  function NavigationIcon({
+    src,
+    alt,
+    mobile = false,
+  }) {
+    return (
+      <div
+        className={
+          mobile
+            ? 'w-6 h-6 flex items-center justify-center'
+            : 'w-6 h-6 flex items-center justify-center shrink-0'
+        }
+      >
+        <img
+          src={src}
+          alt={alt}
+          className={
+            mobile
+              ? 'w-5 h-5 object-contain'
+              : 'w-5 h-5 object-contain'
+          }
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
 
-      {/* SIDEBAR */}
+      {/* ========================= */}
+      {/* SIDEBAR DESKTOP */}
+      {/* ========================= */}
 
       <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-slate-200 flex-col z-40">
 
+        {/* BRAND */}
         <div className="p-6">
 
           <div className="flex items-center gap-3">
@@ -205,71 +247,105 @@ function AppLayout() {
         </div>
 
 
+        {/* ========================= */}
         {/* MENU */}
+        {/* ========================= */}
 
         <nav className="px-4 space-y-2">
 
+          {/* DASHBOARD */}
           <NavLink
             to="/dashboard"
             className={menuClass}
           >
-            <span className="text-lg">
-              ⌂
+
+            <NavigationIcon
+              src={dashboardIcon}
+              alt="Dashboard"
+            />
+
+            <span>
+              Dashboard
             </span>
 
-            Dashboard
           </NavLink>
 
 
+          {/* AKUN */}
           <NavLink
             to="/accounts"
             className={menuClass}
           >
-            <span className="text-lg">
-              ▣
+
+            <NavigationIcon
+              src={accountsIcon}
+              alt="Akun"
+            />
+
+            <span>
+              Akun
             </span>
 
-            Akun
           </NavLink>
 
 
+          {/* TRANSAKSI */}
           <NavLink
             to="/transactions"
             className={menuClass}
           >
-            <span className="text-lg">
-              ↕
+
+            <NavigationIcon
+              src={transactionsIcon}
+              alt="Transaksi"
+            />
+
+            <span>
+              Transaksi
             </span>
 
-            Transaksi
           </NavLink>
 
 
+          {/* LAPORAN */}
           <NavLink
             to="/reports"
             className={menuClass}
           >
-            <span className="text-lg">
-              ▥
+
+            <NavigationIcon
+              src={reportsIcon}
+              alt="Laporan"
+            />
+
+            <span>
+              Laporan
             </span>
 
-            Laporan
           </NavLink>
 
 
+          {/* PROFIL */}
           <NavLink
             to="/profile"
             className={menuClass}
           >
-            <span className="text-lg">
-              ○
+
+            <NavigationIcon
+              src={profileIcon}
+              alt="Profil"
+            />
+
+            <span>
+              Profil
             </span>
 
-            Profil
           </NavLink>
 
 
+          {/* ========================= */}
           {/* ADMIN */}
+          {/* ========================= */}
 
           {isAdmin && (
             <>
@@ -287,11 +363,14 @@ function AppLayout() {
                 className={menuClass}
               >
 
-                <span className="text-lg">
-                  ◈
-                </span>
+                <NavigationIcon
+                  src={adminIcon}
+                  alt="Admin"
+                />
 
-                Admin
+                <span>
+                  Admin
+                </span>
 
               </NavLink>
 
@@ -301,52 +380,76 @@ function AppLayout() {
         </nav>
 
 
-        {/* USER */}
+        {/* ========================= */}
+        {/* USER AREA */}
+        {/* ========================= */}
 
         <div className="mt-auto p-4">
 
-          <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 mb-3">
+          <NavLink
+            to="/profile"
+            className="block"
+          >
 
-            <div className="flex items-center gap-3">
+            <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 mb-3 hover:bg-slate-100 transition">
 
-              <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold">
-                {getInitial()}
-              </div>
+              <div className="flex items-center gap-3">
 
-              <div className="min-w-0">
+                {/* NANTI FOTO PROFIL MASUK DI SINI */}
+                <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold shrink-0">
 
-                <p className="text-sm font-semibold text-slate-800 truncate">
-                  {profile?.full_name ||
-                    'Pengguna Kasnivo'}
-                </p>
+                  {getInitial()}
 
-                <p className="text-xs text-slate-400 truncate">
-                  {email}
-                </p>
+                </div>
 
-                {isAdmin && (
-                  <span className="inline-flex mt-2 px-2 py-1 rounded-full text-[10px] font-bold bg-slate-900 text-white">
-                    ADMIN
-                  </span>
-                )}
+                <div className="min-w-0">
+
+                  <p className="text-sm font-semibold text-slate-800 truncate">
+                    {profile?.full_name ||
+                      'Pengguna Kasnivo'}
+                  </p>
+
+                  <p className="text-xs text-slate-400 truncate">
+                    {email}
+                  </p>
+
+                  {isAdmin && (
+
+                    <span className="inline-flex mt-2 px-2 py-1 rounded-full text-[10px] font-bold bg-slate-900 text-white">
+                      ADMIN
+                    </span>
+
+                  )}
+
+                </div>
 
               </div>
 
             </div>
 
-          </div>
+          </NavLink>
 
+
+          {/* LOGOUT */}
 
           <button
             type="button"
             onClick={handleLogout}
             disabled={loggingOut}
-            className="w-full border border-rose-100 bg-rose-50 hover:bg-rose-100 text-rose-500 py-3 rounded-2xl text-sm font-semibold"
+            className="w-full flex items-center justify-center gap-2 border border-rose-100 bg-rose-50 hover:bg-rose-100 disabled:opacity-60 text-rose-500 py-3 rounded-2xl text-sm font-semibold transition"
           >
 
-            {loggingOut
-              ? 'Keluar...'
-              : 'Keluar'}
+            <img
+              src={logoutIcon}
+              alt="Keluar"
+              className="w-5 h-5 object-contain"
+            />
+
+            <span>
+              {loggingOut
+                ? 'Keluar...'
+                : 'Keluar'}
+            </span>
 
           </button>
 
@@ -355,13 +458,22 @@ function AppLayout() {
       </aside>
 
 
-      {/* MAIN */}
+      {/* ========================= */}
+      {/* MAIN CONTENT */}
+      {/* ========================= */}
 
       <div className="lg:ml-64 min-h-screen">
+
+
+        {/* ========================= */}
+        {/* HEADER */}
+        {/* ========================= */}
 
         <header className="sticky top-0 z-30 bg-slate-50/85 backdrop-blur-xl border-b border-slate-200/70">
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+
+            {/* MOBILE BRAND */}
 
             <div className="flex lg:hidden items-center gap-3">
 
@@ -390,6 +502,8 @@ function AppLayout() {
             </div>
 
 
+            {/* DESKTOP DESCRIPTION */}
+
             <div className="hidden lg:block">
 
               <p className="text-sm text-slate-400">
@@ -399,6 +513,8 @@ function AppLayout() {
             </div>
 
 
+            {/* USER HEADER */}
+
             <NavLink
               to="/profile"
               className="flex items-center gap-3"
@@ -407,20 +523,28 @@ function AppLayout() {
               <div className="hidden sm:block text-right">
 
                 <p className="text-sm font-semibold text-slate-700">
+
                   {profile?.full_name ||
                     'Pengguna'}
+
                 </p>
 
                 <p className="text-xs text-slate-400">
+
                   {isAdmin
                     ? 'Administrator'
                     : 'Akun Kasnivo'}
+
                 </p>
 
               </div>
 
+              {/* NANTI FOTO PROFIL JUGA MASUK DI SINI */}
+
               <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-semibold">
+
                 {getInitial()}
+
               </div>
 
             </NavLink>
@@ -429,6 +553,8 @@ function AppLayout() {
 
         </header>
 
+
+        {/* PAGE CONTENT */}
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-28 lg:pb-8">
 
@@ -439,67 +565,95 @@ function AppLayout() {
       </div>
 
 
-      {/* MOBILE NAV */}
+      {/* ========================= */}
+      {/* MOBILE BOTTOM NAV */}
+      {/* ========================= */}
 
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-slate-200">
 
         <div className="grid grid-cols-5 h-20 px-2">
+
+          {/* HOME */}
 
           <NavLink
             to="/dashboard"
             className={mobileMenuClass}
           >
 
-            <span className="text-xl">
-              ⌂
-            </span>
+            <NavigationIcon
+              src={dashboardIcon}
+              alt="Dashboard"
+              mobile
+            />
 
-            Home
+            <span>
+              Home
+            </span>
 
           </NavLink>
 
+
+          {/* AKUN */}
 
           <NavLink
             to="/accounts"
             className={mobileMenuClass}
           >
 
-            <span className="text-xl">
-              ▣
-            </span>
+            <NavigationIcon
+              src={accountsIcon}
+              alt="Akun"
+              mobile
+            />
 
-            Akun
+            <span>
+              Akun
+            </span>
 
           </NavLink>
 
+
+          {/* TRANSAKSI */}
 
           <NavLink
             to="/transactions"
             className={mobileMenuClass}
           >
 
-            <span className="text-xl">
-              ↕
-            </span>
+            <NavigationIcon
+              src={transactionsIcon}
+              alt="Transaksi"
+              mobile
+            />
 
-            Transaksi
+            <span>
+              Transaksi
+            </span>
 
           </NavLink>
 
+
+          {/* LAPORAN */}
 
           <NavLink
             to="/reports"
             className={mobileMenuClass}
           >
 
-            <span className="text-xl">
-              ▥
-            </span>
+            <NavigationIcon
+              src={reportsIcon}
+              alt="Laporan"
+              mobile
+            />
 
-            Laporan
+            <span>
+              Laporan
+            </span>
 
           </NavLink>
 
+
+          {/* ADMIN / PROFIL */}
 
           <NavLink
             to={
@@ -510,15 +664,25 @@ function AppLayout() {
             className={mobileMenuClass}
           >
 
-            <span className="text-xl">
-              {isAdmin
-                ? '◈'
-                : '○'}
-            </span>
+            <NavigationIcon
+              src={
+                isAdmin
+                  ? adminIcon
+                  : profileIcon
+              }
+              alt={
+                isAdmin
+                  ? 'Admin'
+                  : 'Profil'
+              }
+              mobile
+            />
 
-            {isAdmin
-              ? 'Admin'
-              : 'Profil'}
+            <span>
+              {isAdmin
+                ? 'Admin'
+                : 'Profil'}
+            </span>
 
           </NavLink>
 
