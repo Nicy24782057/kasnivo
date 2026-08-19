@@ -21,8 +21,7 @@ import dashboardIcon from '../assets/icons/navigations/dashboard.png'
 import accountsIcon from '../assets/icons/navigations/accounts.png'
 import transactionsIcon from '../assets/icons/navigations/transactions.png'
 
-// PENTING:
-// file reports di GitHub sekarang adalah reports.jpg
+// File laporan kamu masih JPG
 import reportsIcon from '../assets/icons/navigations/reports.jpg'
 
 import profileIcon from '../assets/icons/navigations/profile.png'
@@ -38,6 +37,9 @@ function AppLayout() {
   const [email, setEmail] =
     useState('')
 
+  const [avatarUrl, setAvatarUrl] =
+    useState('')
+
   const [isAdmin, setIsAdmin] =
     useState(false)
 
@@ -46,9 +48,37 @@ function AppLayout() {
     setLoggingOut,
   ] = useState(false)
 
+  // ==========================================
+  // LOAD USER + DENGARKAN UPDATE FOTO
+  // ==========================================
+
   useEffect(() => {
     loadUser()
+
+    function handleAvatarUpdated(
+      event
+    ) {
+      setAvatarUrl(
+        event.detail || ''
+      )
+    }
+
+    window.addEventListener(
+      'kasnivo-avatar-updated',
+      handleAvatarUpdated
+    )
+
+    return () => {
+      window.removeEventListener(
+        'kasnivo-avatar-updated',
+        handleAvatarUpdated
+      )
+    }
   }, [])
+
+  // ==========================================
+  // LOAD USER
+  // ==========================================
 
   async function loadUser() {
     try {
@@ -67,6 +97,12 @@ function AppLayout() {
 
       setEmail(
         user.email || ''
+      )
+
+      // FOTO PROFIL DARI USER METADATA
+      setAvatarUrl(
+        user.user_metadata
+          ?.avatar_url || ''
       )
 
       const [
@@ -107,6 +143,10 @@ function AppLayout() {
       )
     }
   }
+
+  // ==========================================
+  // LOGOUT
+  // ==========================================
 
   async function handleLogout() {
     const confirmation =
@@ -149,6 +189,10 @@ function AppLayout() {
     }
   }
 
+  // ==========================================
+  // INITIAL
+  // ==========================================
+
   function getInitial() {
     const name =
       profile?.full_name?.trim()
@@ -167,6 +211,53 @@ function AppLayout() {
 
     return 'U'
   }
+
+  // ==========================================
+  // AVATAR COMPONENT
+  // ==========================================
+
+  function UserAvatar({
+    size = 'normal',
+  }) {
+    const sizeClass =
+      size === 'small'
+        ? 'w-10 h-10'
+        : 'w-11 h-11'
+
+    const textClass =
+      size === 'small'
+        ? 'text-sm'
+        : 'text-base'
+
+    if (avatarUrl) {
+      return (
+        <div
+          className={`${sizeClass} rounded-full overflow-hidden border-2 border-white shadow-sm bg-slate-100 shrink-0`}
+        >
+          <img
+            src={avatarUrl}
+            alt="Foto profil"
+            className="w-full h-full object-cover"
+            onError={() =>
+              setAvatarUrl('')
+            }
+          />
+        </div>
+      )
+    }
+
+    return (
+      <div
+        className={`${sizeClass} ${textClass} rounded-full bg-slate-900 text-white flex items-center justify-center font-bold shrink-0`}
+      >
+        {getInitial()}
+      </div>
+    )
+  }
+
+  // ==========================================
+  // NAVIGATION STYLE
+  // ==========================================
 
   const menuClass =
     ({ isActive }) =>
@@ -187,21 +278,16 @@ function AppLayout() {
   function NavigationIcon({
     src,
     alt,
-    mobile = false,
   }) {
     return (
-      <div
-        className={
-          mobile
-            ? 'w-6 h-6 flex items-center justify-center'
-            : 'w-6 h-6 flex items-center justify-center shrink-0'
-        }
-      >
+      <div className="w-6 h-6 flex items-center justify-center shrink-0">
+
         <img
           src={src}
           alt={alt}
           className="w-5 h-5 object-contain"
         />
+
       </div>
     )
   }
@@ -209,7 +295,9 @@ function AppLayout() {
   return (
     <div className="min-h-screen bg-slate-50">
 
-      {/* SIDEBAR */}
+      {/* ================================= */}
+      {/* SIDEBAR DESKTOP */}
+      {/* ================================= */}
 
       <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-slate-200 flex-col z-40">
 
@@ -245,7 +333,9 @@ function AppLayout() {
 
         </div>
 
+        {/* ================================= */}
         {/* MENU */}
+        {/* ================================= */}
 
         <nav className="px-4 space-y-2">
 
@@ -363,7 +453,9 @@ function AppLayout() {
 
         </nav>
 
-        {/* USER */}
+        {/* ================================= */}
+        {/* USER KIRI BAWAH */}
+        {/* ================================= */}
 
         <div className="mt-auto p-4">
 
@@ -376,11 +468,11 @@ function AppLayout() {
 
               <div className="flex items-center gap-3">
 
-                <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold shrink-0">
+                {/* FOTO PROFIL */}
 
-                  {getInitial()}
-
-                </div>
+                <UserAvatar
+                  size="small"
+                />
 
                 <div className="min-w-0">
 
@@ -413,6 +505,8 @@ function AppLayout() {
 
           </NavLink>
 
+          {/* LOGOUT */}
+
           <button
             type="button"
             onClick={handleLogout}
@@ -427,9 +521,11 @@ function AppLayout() {
             />
 
             <span>
+
               {loggingOut
                 ? 'Keluar...'
                 : 'Keluar'}
+
             </span>
 
           </button>
@@ -438,7 +534,9 @@ function AppLayout() {
 
       </aside>
 
+      {/* ================================= */}
       {/* MAIN */}
+      {/* ================================= */}
 
       <div className="lg:ml-64 min-h-screen">
 
@@ -476,7 +574,7 @@ function AppLayout() {
 
             </div>
 
-            {/* DESKTOP */}
+            {/* DESKTOP DESCRIPTION */}
 
             <div className="hidden lg:block">
 
@@ -486,7 +584,9 @@ function AppLayout() {
 
             </div>
 
-            {/* PROFILE */}
+            {/* ================================= */}
+            {/* USER KANAN ATAS */}
+            {/* ================================= */}
 
             <NavLink
               to="/profile"
@@ -512,11 +612,9 @@ function AppLayout() {
 
               </div>
 
-              <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-semibold">
+              {/* FOTO PROFIL */}
 
-                {getInitial()}
-
-              </div>
+              <UserAvatar />
 
             </NavLink>
 
@@ -534,7 +632,9 @@ function AppLayout() {
 
       </div>
 
-      {/* MOBILE NAV */}
+      {/* ================================= */}
+      {/* MOBILE BOTTOM NAV */}
+      {/* ================================= */}
 
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-slate-200">
 
@@ -548,7 +648,6 @@ function AppLayout() {
             <NavigationIcon
               src={dashboardIcon}
               alt="Dashboard"
-              mobile
             />
 
             <span>
@@ -565,7 +664,6 @@ function AppLayout() {
             <NavigationIcon
               src={accountsIcon}
               alt="Akun"
-              mobile
             />
 
             <span>
@@ -582,7 +680,6 @@ function AppLayout() {
             <NavigationIcon
               src={transactionsIcon}
               alt="Transaksi"
-              mobile
             />
 
             <span>
@@ -599,7 +696,6 @@ function AppLayout() {
             <NavigationIcon
               src={reportsIcon}
               alt="Laporan"
-              mobile
             />
 
             <span>
@@ -628,7 +724,6 @@ function AppLayout() {
                   ? 'Admin'
                   : 'Profil'
               }
-              mobile
             />
 
             <span>
