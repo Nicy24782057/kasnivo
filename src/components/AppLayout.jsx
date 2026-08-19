@@ -20,7 +20,11 @@ import logo from '../assets/kasnivo-logo.png'
 import dashboardIcon from '../assets/icons/navigations/dashboard.png'
 import accountsIcon from '../assets/icons/navigations/accounts.png'
 import transactionsIcon from '../assets/icons/navigations/transactions.png'
-import reportsIcon from '../assets/icons/navigations/reports.png'
+
+// PENTING:
+// file reports di GitHub sekarang adalah reports.jpg
+import reportsIcon from '../assets/icons/navigations/reports.jpg'
+
 import profileIcon from '../assets/icons/navigations/profile.png'
 import adminIcon from '../assets/icons/navigations/admin.png'
 import logoutIcon from '../assets/icons/navigations/logout.png'
@@ -196,11 +200,7 @@ function AppLayout() {
         <img
           src={src}
           alt={alt}
-          className={
-            mobile
-              ? 'w-5 h-5 object-contain'
-              : 'w-5 h-5 object-contain'
-          }
+          className="w-5 h-5 object-contain"
         />
       </div>
     )
@@ -209,13 +209,12 @@ function AppLayout() {
   return (
     <div className="min-h-screen bg-slate-50">
 
-      {/* ========================= */}
-      {/* SIDEBAR DESKTOP */}
-      {/* ========================= */}
+      {/* SIDEBAR */}
 
       <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-slate-200 flex-col z-40">
 
         {/* BRAND */}
+
         <div className="p-6">
 
           <div className="flex items-center gap-3">
@@ -246,14 +245,10 @@ function AppLayout() {
 
         </div>
 
-
-        {/* ========================= */}
         {/* MENU */}
-        {/* ========================= */}
 
         <nav className="px-4 space-y-2">
 
-          {/* DASHBOARD */}
           <NavLink
             to="/dashboard"
             className={menuClass}
@@ -270,8 +265,6 @@ function AppLayout() {
 
           </NavLink>
 
-
-          {/* AKUN */}
           <NavLink
             to="/accounts"
             className={menuClass}
@@ -288,8 +281,6 @@ function AppLayout() {
 
           </NavLink>
 
-
-          {/* TRANSAKSI */}
           <NavLink
             to="/transactions"
             className={menuClass}
@@ -306,8 +297,6 @@ function AppLayout() {
 
           </NavLink>
 
-
-          {/* LAPORAN */}
           <NavLink
             to="/reports"
             className={menuClass}
@@ -324,8 +313,6 @@ function AppLayout() {
 
           </NavLink>
 
-
-          {/* PROFIL */}
           <NavLink
             to="/profile"
             className={menuClass}
@@ -342,10 +329,7 @@ function AppLayout() {
 
           </NavLink>
 
-
-          {/* ========================= */}
           {/* ADMIN */}
-          {/* ========================= */}
 
           {isAdmin && (
             <>
@@ -379,10 +363,7 @@ function AppLayout() {
 
         </nav>
 
-
-        {/* ========================= */}
-        {/* USER AREA */}
-        {/* ========================= */}
+        {/* USER */}
 
         <div className="mt-auto p-4">
 
@@ -395,7 +376,6 @@ function AppLayout() {
 
               <div className="flex items-center gap-3">
 
-                {/* NANTI FOTO PROFIL MASUK DI SINI */}
                 <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold shrink-0">
 
                   {getInitial()}
@@ -405,12 +385,16 @@ function AppLayout() {
                 <div className="min-w-0">
 
                   <p className="text-sm font-semibold text-slate-800 truncate">
+
                     {profile?.full_name ||
                       'Pengguna Kasnivo'}
+
                   </p>
 
                   <p className="text-xs text-slate-400 truncate">
+
                     {email}
+
                   </p>
 
                   {isAdmin && (
@@ -428,9 +412,6 @@ function AppLayout() {
             </div>
 
           </NavLink>
-
-
-          {/* LOGOUT */}
 
           <button
             type="button"
@@ -457,17 +438,11 @@ function AppLayout() {
 
       </aside>
 
-
-      {/* ========================= */}
-      {/* MAIN CONTENT */}
-      {/* ========================= */}
+      {/* MAIN */}
 
       <div className="lg:ml-64 min-h-screen">
 
-
-        {/* ========================= */}
         {/* HEADER */}
-        {/* ========================= */}
 
         <header className="sticky top-0 z-30 bg-slate-50/85 backdrop-blur-xl border-b border-slate-200/70">
 
@@ -501,8 +476,7 @@ function AppLayout() {
 
             </div>
 
-
-            {/* DESKTOP DESCRIPTION */}
+            {/* DESKTOP */}
 
             <div className="hidden lg:block">
 
@@ -512,8 +486,7 @@ function AppLayout() {
 
             </div>
 
-
-            {/* USER HEADER */}
+            {/* PROFILE */}
 
             <NavLink
               to="/profile"
@@ -539,8 +512,6 @@ function AppLayout() {
 
               </div>
 
-              {/* NANTI FOTO PROFIL JUGA MASUK DI SINI */}
-
               <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-semibold">
 
                 {getInitial()}
@@ -553,8 +524,7 @@ function AppLayout() {
 
         </header>
 
-
-        {/* PAGE CONTENT */}
+        {/* PAGE */}
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-28 lg:pb-8">
 
@@ -564,16 +534,11 @@ function AppLayout() {
 
       </div>
 
-
-      {/* ========================= */}
-      {/* MOBILE BOTTOM NAV */}
-      {/* ========================= */}
+      {/* MOBILE NAV */}
 
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-slate-200">
 
         <div className="grid grid-cols-5 h-20 px-2">
-
-          {/* HOME */}
 
           <NavLink
             to="/dashboard"
@@ -592,9 +557,6 @@ function AppLayout() {
 
           </NavLink>
 
-
-          {/* AKUN */}
-
           <NavLink
             to="/accounts"
             className={mobileMenuClass}
@@ -611,9 +573,6 @@ function AppLayout() {
             </span>
 
           </NavLink>
-
-
-          {/* TRANSAKSI */}
 
           <NavLink
             to="/transactions"
@@ -632,9 +591,6 @@ function AppLayout() {
 
           </NavLink>
 
-
-          {/* LAPORAN */}
-
           <NavLink
             to="/reports"
             className={mobileMenuClass}
@@ -651,9 +607,6 @@ function AppLayout() {
             </span>
 
           </NavLink>
-
-
-          {/* ADMIN / PROFIL */}
 
           <NavLink
             to={
@@ -679,9 +632,11 @@ function AppLayout() {
             />
 
             <span>
+
               {isAdmin
                 ? 'Admin'
                 : 'Profil'}
+
             </span>
 
           </NavLink>
